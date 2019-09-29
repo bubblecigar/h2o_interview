@@ -10,6 +10,7 @@
 canvas {
     display: inline-block;
     width: 400px;
+    position: relative;
 }
 
 .wrapper {
@@ -19,10 +20,16 @@ canvas {
     align-items: center;
 }
 
+.c-wrapper h1 {
+    text-align: center;
+    margin: 5px;
+    font-size: 20px;
+}
+
 #mask {
     position: fixed;
     left: 0;
-    bottom: 0;
+    top: 0vh;
     display: grid;
     grid-template-rows: 1fr 1fr 1fr 1fr 1fr 1fr 1fr;
     grid-template-columns: 1fr 1fr 1fr;
