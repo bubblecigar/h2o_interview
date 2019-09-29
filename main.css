@@ -26,12 +26,18 @@ canvas {
     font-size: 20px;
 }
 
+#shader-select {
+    grid-column: 1/4;
+    border: 1px solid black;
+    text-align: center;
+}
+
 #mask {
     position: fixed;
     left: 0;
     top: 0vh;
     display: grid;
-    grid-template-rows: 1fr 1fr 1fr 1fr 1fr 1fr 1fr;
+    grid-template-rows: 1fr 1fr 1fr 1fr 1fr 1fr 1fr 1fr 1fr;
     grid-template-columns: 1fr 1fr 1fr;
 }
 
@@ -45,8 +51,10 @@ canvas {
 #threshold {
     grid-column: 1/4;
     border: 1px solid black;
-    text-align: center;
-    width: 9em;
+    background-color: white;
+    display: flex;
+    justify-content: space-evenly;
+    align-items: center;
 }
 
 #rgbaText,

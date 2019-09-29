@@ -29,6 +29,10 @@
         <div id="file-btn" onclick="
             document.querySelector('#file-input').click();
             ">Select File</div>
+        <select name="" id="shader-select">
+            <option value="threshold">threshold</option>
+            <option value="kernel">kernel</option>
+        </select>
         <input class="kernel" type="number">
         <input class="kernel" type="number">
         <input class="kernel" type="number">
@@ -38,6 +42,10 @@
         <input class="kernel" type="number">
         <input class="kernel" type="number">
         <input class="kernel" type="number">
+        <div id="threshold">
+            <h1>th</h1>
+            <input placeholder="threshold" value="0" type="number" step=".1" min="0" max="1">
+        </div>
         <div id="reset-btn">reset </div>
         <div id="rgbaText"></div>
         <div class="label-wrapper">
@@ -45,11 +53,6 @@
             </div>
         </div>
     </div>
-
-    <button id="switch-to-kernel">kernel</button>
-    <button id="switch-to-threshold">threhshold</button>
-    <input id="threshold" placeholder="threshold" type="number" step=".1" min="0" max="1">
-
     <script src="twgl-full.js"></script>
     <script type="module" src="main.js"></script>
 </body>

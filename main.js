@@ -13,11 +13,15 @@ let programInfo = programInfo_threshold; // init fragmentShader
 function setProgram(program) {
     programInfo = program;
 }
-document.querySelector('#switch-to-kernel').addEventListener('click', e => {
-    programInfo = programInfo_kernel;
-})
-document.querySelector('#switch-to-threshold').addEventListener('click', e => {
-    programInfo = programInfo_threshold;
+document.querySelector('#shader-select').addEventListener('change', e => {
+    switch (e.target.value) {
+        case 'kernel':
+            programInfo = programInfo_kernel;
+            break;
+        case 'threshold':
+            programInfo = programInfo_threshold;
+            break;
+    }
 })
 
 const arrays = {
