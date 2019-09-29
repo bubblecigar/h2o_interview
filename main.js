@@ -1,7 +1,24 @@
-import shaderSrc from './shaderSrc.js'
+import shaderSrc_kernel from './shaderSrc_kernel.js'
+import shaderSrc_threshold from './shaderSrc_threshold.js'
 
 const gl = document.getElementById("c").getContext("webgl");
-const programInfo = twgl.createProgramInfo(gl, [shaderSrc.vertexShaderSrc, shaderSrc.fragmentShaderSrc]);
+// kernel program
+const programInfo_kernel = twgl.createProgramInfo(gl, [shaderSrc_kernel.vertexShaderSrc, shaderSrc_kernel.fragmentShaderSrc]);
+
+// threshold program
+const programInfo_threshold = twgl.createProgramInfo(gl, [shaderSrc_threshold.vertexShaderSrc, shaderSrc_threshold.fragmentShaderSrc]);
+
+let programInfo = programInfo_threshold; // init fragmentShader
+
+function setProgram(program) {
+    programInfo = program;
+}
+document.querySelector('#switch-to-kernel').addEventListener('click', e => {
+    programInfo = programInfo_kernel;
+})
+document.querySelector('#switch-to-threshold').addEventListener('click', e => {
+    programInfo = programInfo_threshold;
+})
 
 const arrays = {
     position: [-1, -1, 0, 1, -1, 0, -1, 1, 0, -1, 1, 0, 1, -1, 0, 1, 1, 0],
@@ -14,6 +31,7 @@ image.src = "images/aerial-shot-dark-from-above-1358699.jpg"; // placeholder ima
 image.onload = (e) => {
     setTextureByImage(image);
     setFixedCanvas(image);
+    calcGlobalParams(image); // must be called after setFixedCanvas
 }
 const canvas = document.querySelector('#c');
 canvas.width = image.width;
@@ -94,64 +112,21 @@ canvas.addEventListener('mousemove',
         mouseCoord.x = e.offsetX;
         mouseCoord.y = c.height - e.offsetY;
 
-        rgbaText.textContent = `${pixelData[0]},${pixelData[0]},${pixelData[0]}`;
+        rgbaText.textContent = `${pixelData[0]},${pixelData[1]},${pixelData[2]}`;
         rgbaLabel.style.backgroundColor = `rgba(${pixelData})`;
-
     })
 
-// use framebuffer to apply multiple kernels
-{
-    function createAndSetupTexture(gl) {
-        const texture = gl.createTexture();
-        gl.bindTexture(gl.TEXTURE_2D, texture);
-
-        gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_WRAP_S, gl.CLAMP_TO_EDGE);
-        gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_WRAP_T, gl.CLAMP_TO_EDGE);
-        gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_MIN_FILTER, gl.NEAREST);
-        gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_MAG_FILTER, gl.NEAREST);
-
-        return texture
-    }
-
-    const textures = [];
-    const framebuffers = [];
-    for (let i = 0; i < 2; i++) {
-
-        const texture = createAndSetupTexture(gl);
-        textures.push(texture);
-        gl.texImage2D(
-            gl.TEXTURE_2D, 0, gl.RGBA, image.width, image.height, 0,
-            gl.RGBA, gl.UNSIGNED_BYTE, null);
-
-        const framebuffer = gl.createFramebuffer();
-        framebuffers.push(framebuffer);
-        gl.bindFramebuffer(gl.FRAMEBUFFER, framebuffer);
-
-        gl.framebufferTexture2D(gl.FRAMEBUFFER, gl.COLOR_ATTACHMENT0, gl.TEXTURE_2D, texture, 0);
-    }
-
-    // switch to canvas
-    gl.bindFramebuffer(gl.FRAMEBUFFER, null);
-
-    function setFramebuffer(fbo, width, height) {
-        // make this the framebuffer we are rendering to.
-        gl.bindFramebuffer(gl.FRAMEBUFFER, fbo);
-
-        // Tell the shader the resolution of the framebuffer.
-        gl.uniform2f(resolutionLocation, width, height);
-
-        // Tell webgl the viewport setting needed for framebuffer.
-        gl.viewport(0, 0, width, height);
-    }
-
-    function drawWithKernel(name) {
-        // set the kernel
-        gl.uniform1fv(kernelLocation, kernels[name]);
-
-        // Draw the rectangle.
-        gl.drawArrays(gl.TRIANGLES, 0, 6);
-    }
+// calcGlobalParams is incompleted, the size of imgData is too big and hard to process by simple forEach()
+function calcGlobalParams(image) {
+    const imgData = off_c.getContext('2d').getImageData(0, 0, off_c.width, off_c.height);
 }
+
+// threshold for program_threshold
+let threshold = 0;
+document.querySelector('#threshold').addEventListener('change', e => {
+    threshold = e.target.value;
+
+})
 
 function render(time) {
 
@@ -160,7 +135,7 @@ function render(time) {
 
     const uniforms = {
         time: time * 0.001,
-        lightness: 1,
+        threshold,
         resolution: [gl.canvas.width, gl.canvas.height],
         texSize: [image.width, image.height],
         kernel,

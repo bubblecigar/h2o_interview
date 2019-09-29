@@ -4,13 +4,13 @@
 
 #c {
     margin-right: 20px;
-    background: lightgray;
 }
 
 canvas {
     display: inline-block;
     width: 400px;
     position: relative;
+    outline: 1px solid black;
 }
 
 .wrapper {
@@ -40,6 +40,13 @@ canvas {
     height: 3em;
     border: 1px solid black;
     text-align: center;
+}
+
+#threshold {
+    grid-column: 1/4;
+    border: 1px solid black;
+    text-align: center;
+    width: 9em;
 }
 
 #rgbaText,
