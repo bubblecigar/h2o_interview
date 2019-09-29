@@ -57,11 +57,18 @@ const kernel = [
 ];
 // bind dom
 {
-    const inputs = document.querySelectorAll('#mask input');
+    const inputs = document.querySelectorAll('#mask .kernel');
     inputs.forEach((el, i) => {
         el.value = kernel[i]; // init
         el.addEventListener('change', e => {
             kernel[i] = el.value;
+        })
+    })
+    const resetBtn = document.querySelector('#reset-btn').addEventListener('click', e => {
+        kernel.splice(0);
+        kernel.push(0, 0, 0, 0, 1, 0, 0, 0, 0);
+        inputs.forEach((el, i) => {
+            el.value = kernel[i];
         })
     })
 }

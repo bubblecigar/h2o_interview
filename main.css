@@ -3,10 +3,8 @@
 }
 
 #c {
-    /* width: 100vw; */
-    /* border: 1px solid black; */
+    margin-right: 20px;
     background: lightgray;
-    /* height: 100vh; */
 }
 
 canvas {
@@ -15,8 +13,10 @@ canvas {
 }
 
 .wrapper {
+    padding: 20px;
     display: flex;
-
+    justify-content: center;
+    align-items: center;
 }
 
 #mask {
@@ -24,11 +24,11 @@ canvas {
     left: 0;
     bottom: 0;
     display: grid;
-    grid-template-rows: 1fr 1fr 1fr 1fr 1fr;
+    grid-template-rows: 1fr 1fr 1fr 1fr 1fr 1fr 1fr;
     grid-template-columns: 1fr 1fr 1fr;
 }
 
-#mask input {
+#mask .kernel {
     width: 3em;
     height: 3em;
     border: 1px solid black;
@@ -45,7 +45,40 @@ canvas {
     align-items: center;
 }
 
+#reset-btn,
+#file-btn {
+    grid-column: 1/4;
+    border: 1px solid black;
+    background-color: white;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
+}
+
+#reset-btn:hover,
+#file-btn:hover {
+    cursor: pointer;
+    background-color: lightgray;
+}
+
+#reset-btn:active,
+#file-btn:active {
+    cursor: pointer;
+    background-color: gray;
+}
+
+#file-btn {
+    border: 1px solid black;
+    background-color: white;
+    grid-column: 1/4;
+}
+
 #rgbaLabel {
     height: 10px;
     width: 50%;
+}
+
+#file-input {
+    width: 1px;
 }

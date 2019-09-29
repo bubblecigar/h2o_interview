@@ -11,20 +11,24 @@
 
 <body>
     <input id="file-input" type="file">
-    <div class="wrapepr">
+    <div class="wrapper">
         <canvas id="c"></canvas>
         <canvas id="off_c"></canvas>
     </div>
     <div id="mask">
-        <input type="number">
-        <input type="number">
-        <input type="number">
-        <input type="number">
-        <input type="number">
-        <input type="number">
-        <input type="number">
-        <input type="number">
-        <input type="number">
+        <div id="file-btn" onclick="
+            document.querySelector('#file-input').click();
+            ">file</div>
+        <input class="kernel" type="number">
+        <input class="kernel" type="number">
+        <input class="kernel" type="number">
+        <input class="kernel" type="number">
+        <input class="kernel" type="number">
+        <input class="kernel" type="number">
+        <input class="kernel" type="number">
+        <input class="kernel" type="number">
+        <input class="kernel" type="number">
+        <div id="reset-btn">reset </div>
         <div id="rgbaText"></div>
         <div class="label-wrapper">
             <div id="rgbaLabel">
